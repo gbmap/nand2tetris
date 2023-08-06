@@ -13,5 +13,7 @@ CHIP Inc16 {
     OUT out[16];
 
     PARTS:
-   // Put you code here:
+    Not(in=in[0], out=nin0);
+    Or(a=in[0], b=nin0, out=b1);
+    Add16(a=in,b[0]=b1,out=out);
 }

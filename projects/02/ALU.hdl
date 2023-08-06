@@ -26,6 +26,10 @@
 // if (out == 0) set zr = 1
 // if (out < 0) set ng = 1
 
+//
+// FINAL BOSS
+//
+
 CHIP ALU {
     IN  
         x[16], y[16],  // 16-bit inputs        
@@ -42,5 +46,34 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+
+    // preset x
+    Mux16(a=x, sel=zx, out=oZx);
+    Not16(in=oZx, out=nozX);
+    Mux16(a=oZx, b=nozX, sel=nx, out=x0);
+
+    // preset y
+    Mux16(a=y, sel=zy, out=oZy);
+    Not16(in=oZy, out=nozY);
+    Mux16(a=oZy, b=nozY, sel=ny, out=y0);
+
+    // + or &
+    Add16(a=x0, b=y0, out=xPy);
+    And16(a=x0, b=y0, out=xAy);
+    Mux16(a=xAy, b=xPy, sel=f, out=f0);
+
+    // postsetting
+    Not16(in=f0, out=nf0);
+    Mux16(a=f0, b=nf0, sel=no, out=out, out[0..7]=psOut0, out[8..15]=psOut1, out[15]=lb);
+
+    // zr
+    Or8Way(in=psOut0, out=diff0);
+    Or8Way(in=psOut1, out=diff1);
+    Or(a=diff0, b=diff1, out=nzr);
+    Not(in=nzr, out=zr);
+
+    // ng
+    Not(in=lb, out=nlb);
+    Or(a=lb, b=nlb, out=b1);
+    And(a=lb,b=b1,out=ng);
 }

@@ -1,3 +1,6 @@
+
+# Logic Gates
+
 - [x] Not
 - [x] And
 - [x] Or
@@ -17,4 +20,12 @@
 - [x] Mux8Way16
 
 - [x] DMux4Way
-- [ ] DMux8Way
+- [x] DMux8Way
+
+# ALU 
+
+- [x] Add2 / Half Adder
+- [x] Add3 / Full Adder
+- [x] Add16
+- [x] Inc16
+- [ ] ALU
