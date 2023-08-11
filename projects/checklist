@@ -28,4 +28,13 @@
 - [x] Add3 / Full Adder
 - [x] Add16
 - [x] Inc16
-- [ ] ALU
+- [x] ALU
+
+# CPU
+
+- [x] Bit
+- [x] Register
+- [x] RAM8
+- [x] RAM64
+- [x] PC
+

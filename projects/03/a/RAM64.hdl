@@ -15,5 +15,30 @@ CHIP RAM64 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+
+    // 3 most significant bits select subram chip
+    // filter load signal to correct sub ram chip
+    DMux8Way(
+        sel=address[3..5],
+        in=load,
+        a=lr0, b=lr1, c=lr2, d=lr3, e=lr4, f=lr5, g=lr6, h=lr7
+    );
+
+
+    // 3 least significant bits select register in subram
+    RAM8(in=in, load=lr0, address=address[0..2], out=r8o0);
+    RAM8(in=in, load=lr1, address=address[0..2], out=r8o1);
+    RAM8(in=in, load=lr2, address=address[0..2], out=r8o2);
+    RAM8(in=in, load=lr3, address=address[0..2], out=r8o3);
+    RAM8(in=in, load=lr4, address=address[0..2], out=r8o4);
+    RAM8(in=in, load=lr5, address=address[0..2], out=r8o5);
+    RAM8(in=in, load=lr6, address=address[0..2], out=r8o6);
+    RAM8(in=in, load=lr7, address=address[0..2], out=r8o7);
+
+    // 3 most significant bits select subram chip
+    Mux8Way16(
+        a=r8o0, b=r8o1, c=r8o2, d=r8o3, e=r8o4,f=r8o5, g=r8o6, h=r8o7,
+        sel=address[3..5],
+        out=out
+    );
 }

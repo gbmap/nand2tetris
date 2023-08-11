@@ -16,5 +16,16 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Not16(in=in,out=nin);
+    And16(a=in, b=nin, out=b016); // 0x00
+
+    Or(a=reset,b=load,out=resOrLoad);
+    Or(a=resOrLoad,b=inc,out=rLoad); // should load register
+
+    Inc16(in=r1, out=inInc);
+
+    Mux16(a=r1, b=inInc, sel=inc, out=mxInc);
+    Mux16(a=mxInc, b=in, sel=load, out=mxLoad);
+    Mux16(a=mxLoad, b=b016, sel=reset, out=r0);
+    Register(in=r0, load=rLoad, out=r1, out=out);
 }
