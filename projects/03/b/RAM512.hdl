@@ -15,5 +15,31 @@ CHIP RAM512 {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // RAM64 = 64 registers with 16 bits= 64*16 = 1024 bits = 128 bytes
+    // RAM512 = 512 registers / 64 registers = 8 RAM64 = 8*128 = 1024bytes = 1kb
+
+    // address = 0 0000 0000  = 2^9 = 512 possible ddresses,
+    // 3 msb (8 values) to select ram chip, 6 lsb (16 values) to address subchips.
+
+    // filter load signal to ram chip at address 
+    DMux8Way(
+        sel=address[6..8], in=load,
+        a=lr0, b=lr1, c=lr2, d=lr3, e=lr4, f=lr5, g=lr6, h=lr7
+    );
+    RAM64(in=in, load=lr0, out=r64o0, address=address[0..5]);
+    RAM64(in=in, load=lr1, out=r64o1, address=address[0..5]);
+    RAM64(in=in, load=lr2, out=r64o2, address=address[0..5]);
+    RAM64(in=in, load=lr3, out=r64o3, address=address[0..5]);
+    RAM64(in=in, load=lr4, out=r64o4, address=address[0..5]);
+    RAM64(in=in, load=lr5, out=r64o5, address=address[0..5]);
+    RAM64(in=in, load=lr6, out=r64o6, address=address[0..5]);
+    RAM64(in=in, load=lr7, out=r64o7, address=address[0..5]);
+
+    // select ram signal output from address
+    Mux8Way16(
+        a=r64o0, b=r64o1, c=r64o2, d=r64o3, e=r64o4,
+        f=r64o5, g=r64o6, h=r64o7,
+        sel=address[6..8],
+        out=out
+    );
 }

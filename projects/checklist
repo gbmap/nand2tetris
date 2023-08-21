@@ -37,4 +37,11 @@
 - [x] RAM8
 - [x] RAM64
 - [x] PC
+- [x] RAM512
+- [x] RAM4K
+- [x] RAM16K
+
+# Machine Language
+
+- [x] Mult;
 
